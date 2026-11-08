@@ -1,0 +1,10 @@
+
+{
+  "name": "Machine Learning Lab",
+  "short_name": "ML Lab",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5fa",
+  "theme_color": "#7357d9"
+}
