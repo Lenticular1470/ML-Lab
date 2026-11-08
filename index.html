@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning Lab</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5fa;
+    color: #24243a;
+}
+
+header {
+    background: linear-gradient(120deg, #7357d9, #a184ef);
+    color: white;
+    padding: 35px 7%;
+}
+
+header h1 {
+    margin: 10px 0;
+    font-size: 32px;
+}
+
+header p {
+    line-height: 1.6;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+aside, main {
+    background: white;
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: 0 5px 20px #00000008;
+}
+
+aside h3 {
+    margin-top: 0;
+}
+
+.week-btn {
+    width: 100%;
+    padding: 13px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.week-btn:hover,
+.week-btn.active {
+    background: #eeeaff;
+    color: #7357d9;
+    font-weight: bold;
+}
+
+#week-label {
+    color: #7357d9;
+    font-weight: bold;
+}
+
+h2 {
+    margin-top: 10px;
+}
+
+.description {
+    color: #777;
+    line-height: 1.6;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0 12px;
+}
+
+.copy-btn {
+    background: #7357d9;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+pre {
+    background: #191923;
+    color: #eeeeee;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+code {
+    font-family: Consolas, monospace;
+}
+
+.note {
+    background: #fff8e5;
+    padding: 14px;
+    border-left: 4px solid orange;
+    margin-top: 18px;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+@media(max-width: 750px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Machine Learning Lab Programs</h1>
+    <p>Five weeks of Machine Learning experiments with Python programs.</p>
+</header>
+
+<div class="container">
+
+    <aside>
+        <h3>Experiments</h3>
+
+        <button class="week-btn active" onclick="showWeek(0)">
+            Week 1 - Naive Bayes
+        </button>
+
+        <button class="week-btn" onclick="showWeek(1)">
+            Week 2 - Decision Tree ID3
+        </button>
+
+        <button class="week-btn" onclick="showWeek(2)">
+            Week 3 - KNN
+        </button>
+
+        <button class="week-btn" onclick="showWeek(3)">
+            Week 4 - SVM
+        </button>
+
+        <button class="week-btn" onclick="showWeek(4)">
+            Week 5 - EM and K-Means
+        </button>
+    </aside>
+
+    <main>
+
+        <div id="week-label">WEEK 1</div>
+
+        <h2 id="title">Naive Bayes Classifier</h2>
+
+        <p class="description" id="description">
+            Gaussian Naive Bayes classification.
+        </p>
+
+        <div class="toolbar">
+            <span id="filename">week1_naive_bayes.py</span>
+            <button class="copy-btn" onclick="copyCode()">
+                Copy Code
+            </button>
+        </div>
+
+        <pre><code id="code"></code></pre>
+
+        <div class="note" id="note"></div>
+
+    </main>
+
+</div>
+
+<footer>
+    Machine Learning Lab | Offline Website
+</footer>
+
+<script>
+
+const programs = [
+
+{
+title: "Naive Bayes Classifier",
+file: "week1_naive_bayes.py",
+description: "Gaussian Naive Bayes classification using Age and Salary.",
+note: "Dataset required: naive_bayes_dataset.csv with Age, Salary and Purchased columns.",
+code: `import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+data = pd.read_csv("naive_bayes_dataset.csv")
+
+# Split input and output
+X = data[['Age', 'Salary']]
+y = data['Purchased']
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Create model
+model = GaussianNB()
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# Output
+print("Actual:", list(y_test))
+print("Predicted:", list(y_pred))
+print("Accuracy:", accuracy_score(y_test, y_pred) * 100, "%")`
+},
+
+{
+title: "Decision Tree using ID3 Algorithm",
+file: "week2_decision_tree.py",
+description: "Decision Tree classification using entropy.",
+note: "The entropy criterion uses information gain for splitting.",
+code: `from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Create Decision Tree
+model = DecisionTreeClassifier(criterion='entropy')
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# Output
+print("Actual:", y_test)
+print("Predicted:", y_pred)
+print("Accuracy:", accuracy_score(y_test, y_pred) * 100, "%")`
+},
+
+{
+title: "K-Nearest Neighbors (KNN)",
+file: "week3_knn.py",
+description: "Classification using the three nearest neighbors.",
+note: "Uses the built-in Iris dataset.",
+code: `from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Create KNN model
+model = KNeighborsClassifier(n_neighbors=3)
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# Output
+print("Actual:", y_test)
+print("Predicted:", y_pred)
+print("Accuracy:", accuracy_score(y_test, y_pred) * 100, "%")
+
+# New prediction
+sample = [[5.1, 3.5, 1.4, 0.2]]
+result = model.predict(sample)
+
+print("New Sample:", iris.target_names[result[0]])`
+},
+
+{
+title: "Support Vector Machine (SVM)",
+file: "week4_svm.py",
+description: "SVM classification using the first two Iris features.",
+note: "Displays a scatter plot of predicted classes.",
+code: `import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+iris = load_iris()
+X = iris.data[:, :2]
+y = iris.target
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Create SVM model
+model = SVC()
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# Output
+print("Actual:", y_test)
+print("Predicted:", y_pred)
+
+correct = sum(y_test == y_pred)
+wrong = sum(y_test != y_pred)
+
+print("Correct Predictions:", correct)
+print("Wrong Predictions:", wrong)
+print("Accuracy:", accuracy_score(y_test, y_pred) * 100, "%")
+
+# Scatter plot
+plt.scatter(X_test[:, 0], X_test[:, 1], c=y_pred)
+plt.title("SVM Classification")
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+plt.show()`
+},
+
+{
+title: "EM and K-Means Clustering",
+file: "week5_em_kmeans.py",
+description: "Clustering using Expectation Maximization and K-Means.",
+note: "Compares the two clustering algorithms using scatter plots.",
+code: `import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.mixture import GaussianMixture
+from sklearn.cluster import KMeans
+
+# Load dataset
+iris = load_iris()
+X = iris.data[:, :2]
+
+# EM Algorithm
+em = GaussianMixture(n_components=3, random_state=42)
+em_labels = em.fit_predict(X)
+
+# K-Means Algorithm
+km = KMeans(n_clusters=3, random_state=42, n_init=10)
+km_labels = km.fit_predict(X)
+
+# Print results
+print("EM Clustering:")
+print(em_labels)
+
+print("K-Means Clustering:")
+print(km_labels)
+
+# Plot graphs side by side
+plt.figure(figsize=(10, 4))
+
+plt.subplot(1, 2, 1)
+plt.scatter(X[:, 0], X[:, 1], c=em_labels)
+plt.title("EM Clustering")
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+
+plt.subplot(1, 2, 2)
+plt.scatter(X[:, 0], X[:, 1], c=km_labels)
+plt.title("K-Means Clustering")
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+
+plt.tight_layout()
+plt.show()`
+}
+
+];
+
+function showWeek(index) {
+
+    const p = programs[index];
+
+    document.getElementById("week-label").innerText =
+        "WEEK " + (index + 1);
+
+    document.getElementById("title").innerText = p.title;
+
+    document.getElementById("description").innerText =
+        p.description;
+
+    document.getElementById("filename").innerText = p.file;
+
+    document.getElementById("code").textContent = p.code;
+
+    document.getElementById("note").innerText = p.note;
+
+    document.querySelectorAll(".week-btn").forEach((btn, i) => {
+        btn.classList.toggle("active", i === index);
+    });
+
+}
+
+function copyCode() {
+
+    const code = document.getElementById("code").textContent;
+
+    const area = document.createElement("textarea");
+    area.value = code;
+
+    document.body.appendChild(area);
+    area.select();
+
+    document.execCommand("copy");
+
+    area.remove();
+
+    alert("Code copied successfully!");
+
+}
+
+showWeek(0);
+
+</script>
+
+</body>
+</html>
